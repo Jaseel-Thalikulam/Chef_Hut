@@ -5,10 +5,21 @@ import Profile from "./pages/Profile";
 import EditProfile from "./pages/EditProfile";
 import NotFound from "./pages/NotFound";
 import Error from "./pages/Error";
-
+import { StyleProvider } from "@ant-design/cssinjs";
+import { ConfigProvider } from "antd";
 function App() {
   return (
     <>
+      <ConfigProvider
+    theme={{
+      token: {
+        colorPrimary: 'orange', 
+      },
+    }}
+    >
+      
+      <StyleProvider>
+
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login />} />
@@ -19,6 +30,8 @@ function App() {
           <Route path="/*" element={<NotFound />} /> 
         </Routes>
       </BrowserRouter>
+      </StyleProvider>
+  </ConfigProvider>
     </>
   );
 }
