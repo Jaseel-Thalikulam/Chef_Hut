@@ -1,1 +1,3 @@
-export const SERVER_URL = import.meta.env.SERVER_URL
+export const SERVER_URL = import.meta.env.VITE_SERVER_URL
+export const CLOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME
+export const CLOUDINARY_UPLOAD_PRESENT = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESENT

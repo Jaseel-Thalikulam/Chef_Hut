@@ -7,31 +7,40 @@ import NotFound from "./pages/NotFound";
 import Error from "./pages/Error";
 import { StyleProvider } from "@ant-design/cssinjs";
 import { ConfigProvider } from "antd";
+import LayoutComponent from "./components/layout/LayoutComponent";
+import './styles/app.css'
+
 function App() {
   return (
     <>
       <ConfigProvider
-    theme={{
-      token: {
-        colorPrimary: 'orange', 
-      },
-    }}
-    >
-      
-      <StyleProvider>
-
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/edit-profile" element={<EditProfile />} />
-          <Route path="/error" element={<Error />} /> 
-          <Route path="/*" element={<NotFound />} /> 
-        </Routes>
-      </BrowserRouter>
-      </StyleProvider>
-  </ConfigProvider>
+        theme={{
+          token: {
+            colorPrimary: "orange",
+          },
+        }}
+      >
+        <StyleProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Login />} />
+             
+              
+              <Route path="/home" element={<Home />} />
+              <Route path="/profile" element={
+              <LayoutComponent>
+                  
+                <Profile />
+              </LayoutComponent>
+              
+              } />
+              <Route path="/edit-profile" element={<EditProfile />} />
+              <Route path="/error" element={<Error />} />
+              <Route path="/*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </StyleProvider>
+      </ConfigProvider>
     </>
   );
 }

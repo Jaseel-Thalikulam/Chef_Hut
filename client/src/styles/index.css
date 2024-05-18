@@ -4,3 +4,7 @@ body{
     user-select: none;
     -webkit-user-drag: none;
 }
+
+.required{
+    color: red;
+  }
