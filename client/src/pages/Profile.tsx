@@ -1,5 +1,5 @@
 import { Button, Image } from "antd";
-import "../styles/Profile.css";
+import "../styles/profile.css";
 import { useNavigate } from "react-router-dom";
 function Profile() {
   const navigate = useNavigate()

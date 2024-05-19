@@ -1,4 +1,4 @@
-import "../styles/Login.css";
+import "../styles/login.css";
 import gsap from "gsap";
 import { useEffect, useState } from "react";
 import Login from "../components/Login";

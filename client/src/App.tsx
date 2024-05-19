@@ -8,7 +8,7 @@ import Error from "./pages/Error";
 import { StyleProvider } from "@ant-design/cssinjs";
 import { ConfigProvider } from "antd";
 import LayoutComponent from "./components/layout/LayoutComponent";
-import "./styles/App.css";
+import "./styles/app.css";
 
 function App() {
   return (
