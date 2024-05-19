@@ -32,7 +32,7 @@ function Uploader({ setAvatarUrl }: IUploaderProps) {
         {
           onUploadProgress: (progressEvent: AxiosProgressEvent) => {
             const percentCompleted = Math.round(
-              (progressEvent.loaded / progressEvent.total) * 100
+              (progressEvent.loaded / progressEvent!.total) * 100
             );
             setUploadProgress(percentCompleted);
             console.log(`Upload progress: ${percentCompleted}%`);
