@@ -4,7 +4,7 @@ import SideBar from "./SideBarComponent";
 import ContentWrap from "./ContentWrap";
 import '../../styles/layout.css'
 import { Outlet } from "react-router-dom";
-function LayoutComponent({ children }: any) {
+function LayoutComponent() {
   return (
     <Layout id="layout">
       <SideBar  />

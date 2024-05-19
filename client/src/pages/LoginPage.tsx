@@ -8,7 +8,7 @@ function LoginPage() {
 
   useEffect(() => {
     if (window.innerWidth > 426) {
-      let tl = gsap.timeline();
+      const tl = gsap.timeline();
 
       tl.from('.right--content--container', {duration:1, x:'100%', ease:'back.in'})
         .from('.header', {duration:1, opacity:0});

@@ -7,10 +7,7 @@ import {
   CLOUDINARY_CLOUD_NAME,
   CLOUDINARY_UPLOAD_PRESENT,
 } from "../constants/constants";
-import type {
-  RcFile as OriRcFile,
-  UploadRequestOption as RcCustomRequestOptions,
-} from "rc-upload/lib/interface";
+import type { UploadRequestOption as RcCustomRequestOptions } from "rc-upload/lib/interface";
 import { IUploaderProps } from "../interfaces/IUploaderProps";
 
 function Uploader({ setAvatarUrl }: IUploaderProps) {
@@ -61,7 +58,7 @@ function Uploader({ setAvatarUrl }: IUploaderProps) {
 
   return (
     <>
-          <label>Upload profile image</label>
+      <label>Upload profile image</label>
 
       <Form.Item
         rules={[

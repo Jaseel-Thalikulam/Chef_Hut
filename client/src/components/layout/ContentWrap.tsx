@@ -1,7 +1,8 @@
 
 import { Layout } from "antd";
+import { IContentWrapProps } from "../../interfaces/IContentwrapProps";
 
-function ContentWrap({children}:any) {
+function ContentWrap({children}:IContentWrapProps) {
     const { Content } = Layout;
   
   return (
