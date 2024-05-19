@@ -8,7 +8,7 @@ import Error from "./pages/Error";
 import { StyleProvider } from "@ant-design/cssinjs";
 import { ConfigProvider } from "antd";
 import LayoutComponent from "./components/layout/LayoutComponent";
-import './styles/app.css'
+import "./styles/app.css";
 
 function App() {
   return (
@@ -16,7 +16,7 @@ function App() {
       <ConfigProvider
         theme={{
           token: {
-            colorPrimary: "orange",
+            colorPrimary: "#fd7014",
           },
         }}
       >
@@ -24,19 +24,13 @@ function App() {
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Login />} />
-             
-              
               <Route path="/home" element={<Home />} />
-              <Route path="/profile" element={
-              <LayoutComponent>
-                  
-                <Profile />
-              </LayoutComponent>
-              
-              } />
-              <Route path="/edit-profile" element={<EditProfile />} />
               <Route path="/error" element={<Error />} />
               <Route path="/*" element={<NotFound />} />
+              <Route element={<LayoutComponent />}>
+                <Route path="profile" index element={<Profile />} />
+                <Route path="edit-profile" element={<EditProfile />} />
+              </Route>
             </Routes>
           </BrowserRouter>
         </StyleProvider>

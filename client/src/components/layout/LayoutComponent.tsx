@@ -1,22 +1,22 @@
 import { Layout } from "antd";
 import Header from "./HeaderComponent";
-import Footer from "./FooterComponent";
 import SideBar from "./SideBarComponent";
 import ContentWrap from "./ContentWrap";
 import '../../styles/layout.css'
+import { Outlet } from "react-router-dom";
 function LayoutComponent({ children }: any) {
   return (
     <Layout id="layout">
-      <SideBar />
+      <SideBar  />
       <Layout>
 
-        <Header />
+        <Header  />
 
         <ContentWrap>
-          {children}
+          <Outlet/>
         </ContentWrap>
 
-        <Footer />
+        {/* <Footer /> */}
 
       </Layout>
     </Layout>

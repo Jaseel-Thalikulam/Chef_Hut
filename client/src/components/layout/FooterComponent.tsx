@@ -5,7 +5,7 @@ const { Footer } = Layout;
 function FooterComponent() {
   return (
     <Footer style={{ textAlign: "center" }}>
-      
+        
     </Footer>
   );
 }

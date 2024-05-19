@@ -23,7 +23,7 @@ function Register({ setIsLogin }: ILoginProps) {
 
   return (
     <>
-      <div className="header content">
+      <div className="heading content">
         <h1>{isRegistered ? "Enter OTP" : "Register Chef"}</h1>
       </div>
 

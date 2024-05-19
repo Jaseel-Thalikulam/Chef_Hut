@@ -68,7 +68,7 @@
   width: 100%;
 }
 
-.header {
+.heading {
   display: flex;
   justify-content: center;
 }
@@ -104,7 +104,7 @@
 
 p span {
   cursor: pointer;
-  color: orange;
+  color: #fd7014;
 } 
 
 p{

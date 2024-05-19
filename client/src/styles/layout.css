@@ -1,30 +1,29 @@
-#layout{
-    height: 100vh;
+#layout {
+  height: 100vh;
 }
 
-.side--bar--content{
-background-color: white !important;
-color: gray !important;
+.side--bar--content {
+  background-color: white !important;
+
+}
+.ant-layout-sider-zero-width-trigger,.ant-layout-sider-zero-width-trigger-left{
+  background-color: #fd7014 !important;
 }
 
-.logo{
-width: auto;
-height: 9%;
-background-color: gray;
-margin-bottom: 5px;
+.logo {
+  width: 300;
+  height: 9%;
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 }
 
-
-.menu{
-   background-color: white !important;
+.menu {
+  background-color: white !important;
 }
 
-/* /* .ant-menu-title-content {
-    color: black ;
-} */
-
-
-/* .ant-menu-item-selected{
-    background-color: orange !important;
-    color: white !important;
-}  */
+.header {
+  background-color: white;
+}

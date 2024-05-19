@@ -28,7 +28,7 @@ function Login({ setIsLogin }: ILoginProps) {
   };
   return (
     <>
-      <div className="header">
+      <div className="heading">
         <h1>Welcome Chef</h1>
       </div>
       <div className="form--wrap">
