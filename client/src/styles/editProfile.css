@@ -1,0 +1,27 @@
+.edit--profile--container{
+    /* background-color: blue; */
+    height: 100%;
+   padding: 20px;
+    
+}
+
+.antd--form--edit--profile{
+    display: flex;
+  flex-wrap: wrap;
+  height: 100%;
+  width: 100% !important;
+
+}
+
+.edit--profile--left--container,.edit--profile--right--container{
+    flex:1;
+    /* border: solid 1px red; */
+    min-width: 250px;
+    margin: 10px;
+}
+
+.edit-profile-submit-btn{
+    display: flex;
+    justify-content: end;
+    margin:10px
+  }
