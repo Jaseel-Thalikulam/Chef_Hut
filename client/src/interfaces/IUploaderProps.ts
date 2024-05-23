@@ -1,4 +1,5 @@
 export interface IUploaderProps {
 
-    setAvatarUrl :React.Dispatch<React.SetStateAction<string>>
+    setAvatarUrl: React.Dispatch<React.SetStateAction<string>>
+    showLabel:boolean
 }

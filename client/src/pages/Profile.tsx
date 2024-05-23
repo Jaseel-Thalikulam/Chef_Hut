@@ -1,8 +1,36 @@
 import { Button, Image } from "antd";
 import "../styles/profile.css";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getProfileData, updateProfileImage } from "../api/user";
+import { IUser } from "../interfaces/IUser";
+import Uploader from "../components/Uploader";
+import { showErrorMessage, showSuccessMessage } from "../helpers/helpers";
 function Profile() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [user, setUser] = useState<Partial<IUser>>({});
+  const [avatarUrl, setAvatarUrl] = useState("");
+  useEffect(() => {
+    (async function getData() {
+      const res = await getProfileData();
+
+      setUser(res?.data.user);
+    })();
+  }, []);
+
+  useEffect(() => {
+    if (!avatarUrl) return;
+
+    (async function updateAvatar() {
+      try {
+        const res = await updateProfileImage(avatarUrl);
+        showSuccessMessage(res);
+      } catch (err) {
+        showErrorMessage(err);
+      }
+    })();
+  }, [avatarUrl]);
+
   return (
     <>
       <div className="main--container">
@@ -15,87 +43,88 @@ function Profile() {
             <div className="personal--info">
               <div className="profile--info--top--container">
                 <div className="avatar--img--wrap">
+                
                   <Image
                     className="avatar--img"
-                    src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8dXNlciUyMHByb2ZpbGV8ZW58MHx8MHx8fDA%3D"
+                    src={avatarUrl?avatarUrl:user?.avatarUrl}
                   />
+                  
+                  <Uploader showLabel={false} setAvatarUrl={setAvatarUrl} />
+                    
                 </div>
                 <div className="username--wrap">
-                  <h1 className="username">Jaseel Thalikulam</h1>
-                  <span className="secondary--text">@Jaseel2121</span>
-                  <Button type="link" className="edit--btn" onClick={()=>navigate('/edit-profile')}>
+                  <h1 className="username">{user ? user.name : null}</h1>
+                  <span className="secondary--text">
+                    @{user?.username?.toLowerCase()}
+                  </span>
+                  <Button
+                    type="link"
+                    className="edit--btn"
+                    onClick={() => navigate("/edit-profile")}
+                  >
                     Edit Profile
                   </Button>
                 </div>
-    
               </div>
               <div className="profile--info--bottom--container">
                 <h3 className="content--heading">Personal Information</h3>
-               
-                <div className="profile--info--bottom--container--child">
-                  <div>
-                  <label className="secondary--text">Full Name</label>
-                  <h4>Jaseel T A</h4>
-                  </div>
-                </div>
-                <div className="profile--info--bottom--container--child">
-                  <div>
-                  <label className="secondary--text">Email</label>
-                  <h4>jaseelta1@gmail.com</h4>
-                  </div>
-                  <div>
-                  <label className="secondary--text">Contact Number</label>
-                  <h4>9746697961</h4>
-                  </div>
-                </div>
-                <div className="profile--info--bottom--container--child">
-                  <div>
-                  <label className="secondary--text">Bio</label>
-                  <h4>CEO & Co-founder of Chef Hut</h4>
-                  </div>
-                 
-                </div>
 
-              
-                
-                
+                <div className="profile--info--bottom--container--child">
+                  <div>
+                    <label className="secondary--text">Full Name</label>
+                    <h4>{user?.name}</h4>
+                  </div>
+                </div>
+                <div className="profile--info--bottom--container--child">
+                  <div>
+                    <label className="secondary--text">Email</label>
+                    <h4>{user?.email}</h4>
+                  </div>
+                  <div>
+                    <label className="secondary--text">Contact Number</label>
+                    <h4>{user?.contactNumber}</h4>
+                  </div>
+                </div>
+                <div className="profile--info--bottom--container--child">
+                  <div>
+                    <label className="secondary--text">Bio</label>
+                    <h4>{user?.bio ? user.bio : "Bio is not set yet"}</h4>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
           <div className="profile--right--container">
             <div className="address--container">
-            <div className="profile--info--bottom--container">
+              <div className="profile--info--bottom--container">
                 <h3 className="content--heading">Address</h3>
-               
+
                 <div className="profile--info--bottom--container--child">
                   <div>
-                  <label className="secondary--text">Country</label>
-                  <h4>India</h4>
+                    <label className="secondary--text">Country</label>
+                    <h4>
+                      {user?.address?.country ? user.address.country : "-"}
+                    </h4>
                   </div>
                   <div>
-                  <label className="secondary--text">State</label>
-                  <h4>Kerala</h4>
+                    <label className="secondary--text">State</label>
+                    <h4>{user?.address?.state ? user.address.state : "-"}</h4>
                   </div>
                 </div>
                 <div className="profile--info--bottom--container--child">
-                  
                   <div>
-                  <label className="secondary--text">City</label>
-                  <h4>Palakkad</h4>
+                    <label className="secondary--text">Postal Code</label>
+                    <h4>
+                      {user?.address?.postalCode
+                        ? user.address.postalCode
+                        : "-"}
+                    </h4>
                   </div>
-                  <div>
-                  <label className="secondary--text">Postal Code</label>
-                  <h4>10011</h4>
-                  </div>
-                 
                 </div>
-               
               </div>
-          </div>
+            </div>
           </div>
         </div>
-
-        
       </div>
     </>
   );

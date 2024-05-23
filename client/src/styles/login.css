@@ -86,11 +86,12 @@
   width: 80% !important;
 }
 
-.submit--btn {
+.submit--btn,.submit--btn:disabled {
   width: 100%;
   background-color: white;
   color: black;
   outline: auto;
+  margin-bottom: 10px;
   @media (max-width: 426px) {
     background-color: black;
     color: white;

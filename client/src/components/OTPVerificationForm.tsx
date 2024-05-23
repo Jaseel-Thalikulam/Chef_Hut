@@ -1,12 +1,36 @@
 import { Button, Form, Input } from "antd";
-import { valueType } from "antd/es/statistic/utils";
 import { useNavigate } from "react-router-dom";
-function OTPVerificationForm() {
+import { sendOTP, verifyOTP } from "../api/user";
+import { showErrorMessage, showSuccessMessage } from "../helpers/helpers";
+import { useEffect, useState } from "react";
+import { setUserAuthenticated } from "../redux/userSlice";
+import { useDispatch } from "react-redux";
+function OTPVerificationForm({ email }: { email: string }) {
   const navigate = useNavigate();
-  async function onFinish(values: valueType) {
-    console.log(values);
-     navigate('/profile')
+  const dispatch = useDispatch()
+  const [seconds, setSeconds] = useState(60);
+
+  async function onFinish(values: { otp: string }) {
+    try {
+      const res = await verifyOTP({ ...values, email });
+      dispatch(setUserAuthenticated())
+      showSuccessMessage(res);
+      navigate("/profile");
+    } catch (err) {
+      showErrorMessage(err);
+    }
   }
+
+
+  useEffect(() => {
+    if (seconds > 0) {
+      const timerId = setTimeout(() => {
+        setSeconds(seconds - 1);
+      }, 1000);
+      return () => clearTimeout(timerId); 
+    }
+  }, [seconds]);
+
   return (
     <>
       <Form onFinish={onFinish} className="antd--form">
@@ -20,7 +44,7 @@ function OTPVerificationForm() {
             },
           ]}
         >
-          <Input.OTP  size="large" />
+          <Input.OTP size="large" />
         </Form.Item>
 
         <Button
@@ -29,7 +53,17 @@ function OTPVerificationForm() {
           htmlType="submit"
           size="large"
         >
-          Verify Email
+          Verify OTP
+        </Button>
+        <Button
+          disabled={seconds>0}
+          className="submit--btn"
+          type="primary"
+          htmlType="button"
+          size="large"
+          onClick={() => { sendOTP({email,setSeconds}) }}
+        >
+          Re-send OTP  {seconds>0?'in '+seconds+'s':null}
         </Button>
       </Form>
     </>

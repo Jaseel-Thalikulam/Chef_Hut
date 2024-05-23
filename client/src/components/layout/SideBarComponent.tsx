@@ -2,9 +2,23 @@ import { Layout, Menu } from "antd";
 const { Sider } = Layout;
 import { UserOutlined, LogoutOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-import { SignOut } from "../../api/user";
+
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Logo from "./Logo";
+import { setUserUnauthenticated } from "../../redux/userSlice";
+import { deleteCookie } from "../../api/user";
 function SideBarComponent() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const SignOut = async (key: string) => {
+    if (key !== "SignOut") return;
+    await deleteCookie();
+    dispatch(setUserUnauthenticated());
+    navigate("/");
+  };
+
   const items = [
     {
       label: "Profile",
@@ -21,7 +35,7 @@ function SideBarComponent() {
 
   return (
     <>
-      <Sider breakpoint="lg" collapsedWidth="0" className="side--bar--content" >
+      <Sider breakpoint="lg" collapsedWidth="0" className="side--bar--content">
         <div className="logo">
           <Logo />
         </div>

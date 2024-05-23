@@ -1,31 +1,52 @@
 import { Button, Form, Input } from "antd";
-import { valueType } from "antd/es/statistic/utils";
 import { ILoginProps } from "../interfaces/ILoginProps";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import {
+  showErrorMessage,
+  showSuccessMessage,
+} from "../helpers/helpers";
+import { sendOTP, verifyOTP } from "../api/user";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setUserAuthenticated } from "../redux/userSlice";
 
 function Login({ setIsLogin }: ILoginProps) {
-  const [isOtpSent, setOtpSend] = useState(false);
-  const [seconds, setSeconds] = useState(60);
-  async function onFinish(values: valueType) {
-    console.log(values, "values");
+  const [email, setEmail] = useState('');
+  const [seconds, setSeconds] = useState(0);
+const navigate = useNavigate()
+const dispatch = useDispatch()
+  async function onFinish({ otp }: { otp: string }) {
+    try {
+      
+      const res = await verifyOTP({ otp, email })
+      dispatch(setUserAuthenticated())
+
+      showSuccessMessage(res)
+      navigate('/profile')
+    } catch (err) {
+      console.log(err)
+
+      showErrorMessage(err)
+    }
   }
 
-  const SendOTP = async (value: string) => {
+  const onSendBtnClick = async (email: string) => {
     const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-    if (pattern.test(value)) {
-      console.log(value);
-      setOtpSend(true);
-      let timer = 60;
-      const intervalId = setInterval(() => {
-        timer--;
-        setSeconds(timer);
-        if (timer === 0) {
-          setOtpSend(false);
-          clearInterval(intervalId);
-        }
-      }, 1000);
+    if (pattern.test(email)) {
+      setEmail(email)
+      sendOTP({ email, setSeconds });
     }
   };
+
+  useEffect(() => {
+    if (seconds > 0) {
+      const timerId = setTimeout(() => {
+        setSeconds(seconds - 1);
+      }, 1000);
+      return () => clearTimeout(timerId);
+    }
+  }, [seconds]);
+
   return (
     <>
       <div className="heading">
@@ -33,35 +54,21 @@ function Login({ setIsLogin }: ILoginProps) {
       </div>
       <div className="form--wrap">
         <Form onFinish={onFinish} className="antd--form">
+          <label>
+            EmailId<span className="required">*</span>
+          </label>
           <Form.Item name="emailId">
-            <label>
-              EmailId<span className="required">*</span>
-            </label>
             <Input.Search
-              disabled={isOtpSent}
-              enterButton={isOtpSent ? seconds + "s" : "Send OTP"}
+              disabled={seconds>0}
+              enterButton={seconds>0 ? seconds + "s" : "Send OTP"}
               placeholder="Email"
               size="large"
-              onSearch={(value) => SendOTP(value)}
+              onSearch={(value) => onSendBtnClick(value)}
             />
           </Form.Item>
-
-          {/* <Form.Item
-            name="otp"
-            rules={[
-              {
-                required: true,
-                pattern: new RegExp(/^\d{6}$/),
-                message: "Kindly enter valid OTP.",
-   
-              },
-            ]}
-          >
-          <label>OTP<span className="required">*</span></label>
-
-            <Input.OTP disabled={!isOtpSent} size="large" />
-          </Form.Item> */}
-
+          <label>
+            OTP<span className="required">*</span>
+          </label>
           <Form.Item
             name="otp"
             rules={[
@@ -72,7 +79,7 @@ function Login({ setIsLogin }: ILoginProps) {
               },
             ]}
           >
-            <Input.OTP size="large" disabled={!isOtpSent} />
+            <Input.OTP size="large" disabled={!(seconds>0)} />
           </Form.Item>
 
           <Button
@@ -80,7 +87,7 @@ function Login({ setIsLogin }: ILoginProps) {
             type="primary"
             htmlType="submit"
             size="large"
-            disabled={!isOtpSent}
+            disabled={!(seconds>0)}
           >
             Submit
           </Button>

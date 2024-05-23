@@ -11,7 +11,7 @@ function LoginPage() {
       const tl = gsap.timeline();
 
       tl.from('.right--content--container', {duration:1, x:'100%', ease:'back.in'})
-        .from('.header', {duration:1, opacity:0});
+        .from('.heading', {duration:1, opacity:0});
   }
 },[isLogin])
   return (

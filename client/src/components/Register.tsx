@@ -1,25 +1,41 @@
 import { ILoginProps } from "../interfaces/ILoginProps";
 import { Button, Form, Input } from "antd";
-import { valueType } from "antd/es/statistic/utils";
 import { useEffect, useState } from "react";
 
 import OTPVerificationForm from "./OTPVerificationForm";
 import Uploader from "./Uploader";
+import { registerUser } from "../api/user";
+import { IUserRegisterValues } from "../interfaces/IUserRegisterValues";
+import { showErrorMessage } from "../helpers/helpers";
+
 
 function Register({ setIsLogin }: ILoginProps) {
-  const [isVerifying, setIsVerifying] = useState(false);
+
   const [isRegistered, setisRegistered] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState("");
+  const [email, setEmail] = useState("");
 
-  async function onFinish(values: valueType) {
-    console.log(values, "values");
+  async function onFinish(values: IUserRegisterValues) {
+    try {
+      if (!avatarUrl || !values) return;
+      await registerUser({ ...values, avatarUrl });
+      setEmail(values.emailId)
+      setisRegistered(true)
+      
+      return
+    } catch (err:any) {
 
-    setIsVerifying(false);
-    setisRegistered(true);
+      showErrorMessage(err)
+   }
+
+
+    
+    
   }
+
   useEffect(() => {
-    console.log(avatarUrl);
-  }, [avatarUrl]);
+   
+ },[isRegistered])
 
   return (
     <>
@@ -29,66 +45,74 @@ function Register({ setIsLogin }: ILoginProps) {
 
       <div className="form--wrap content">
         {isRegistered ? (
-          <OTPVerificationForm />
+          <OTPVerificationForm email={email}/>
         ) : (
           <Form onFinish={onFinish} className="antd--form">
+            <label>
+              Name<span className="required">*</span>
+            </label>
             <Form.Item
               name="name"
               rules={[
                 {
-                  required: false,
-                  message: "Kindly enter valid name.",
-                  type: "string",
+                  required: true,
+                  message: "Name is required",
+                },
+                {
                   pattern: /^(?:\s*[A-Za-z]\s*){3,}$/,
+                  message: "Invalid name format.",
                 },
               ]}
             >
-              <label>
-                Name<span className="required">*</span>
-              </label>
               <Input placeholder="Full Name" size="large" />
             </Form.Item>
+            <label>
+              EmailID<span className="required">*</span>
+            </label>
             <Form.Item
               name="emailId"
               rules={[
                 {
-                  required: false,
-                  message: "Kindly enter valid emailId.",
+                  required: true,
+                  message: "Email is required.",
                   type: "email",
+                },
+                {
+                  pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                  message: "Invalid email format.",
                 },
               ]}
             >
-              <label>
-                EmailID<span className="required">*</span>
-              </label>
               <Input type="email" placeholder="Email" size="large" />
             </Form.Item>
 
+            <label>
+              Contact Number<span className="required">*</span>
+            </label>
             <Form.Item
               name="contactNumber"
               rules={[
                 {
-                  required: false,
-                  message: "Kindly enter valid contact number.",
+                  required: true,
+                  message: "Contact Number is required.",
+                },
+                {
                   pattern: new RegExp(/^[0-9\b]+$/),
+                  message: "Kindly enter a valid contact number.",
                 },
               ]}
             >
-              <label>
-                Contact Number<span className="required">*</span>
-              </label>
-
-              <Input placeholder="Contact Number" size="large" />
+              <Input maxLength={10} placeholder="Contact Number" size="large" />
             </Form.Item>
 
-            <Uploader setAvatarUrl={setAvatarUrl} />
+              <Uploader setAvatarUrl={setAvatarUrl} showLabel={true} />
 
             <Button
               className="submit--btn"
               type="primary"
               htmlType="submit"
               size="large"
-              loading={isVerifying}
+            
             >
               Send OTP
             </Button>

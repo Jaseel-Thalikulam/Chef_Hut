@@ -10,7 +10,7 @@ import {
 import type { UploadRequestOption as RcCustomRequestOptions } from "rc-upload/lib/interface";
 import { IUploaderProps } from "../interfaces/IUploaderProps";
 
-function Uploader({ setAvatarUrl }: IUploaderProps) {
+function Uploader({ setAvatarUrl,showLabel }: IUploaderProps) {
   const [loading, setLoading] = useState<boolean>(false);
   const [uploadProgress, setUploadProgress] = useState<number>(0);
 
@@ -36,7 +36,7 @@ function Uploader({ setAvatarUrl }: IUploaderProps) {
                 (progressEvent.loaded / progressEvent.total) * 100
               );
               setUploadProgress(percentCompleted);
-              console.log(`Upload progress: ${percentCompleted}%`);
+          
             }
           }
         }
@@ -60,7 +60,8 @@ function Uploader({ setAvatarUrl }: IUploaderProps) {
 
   return (
     <>
-      <label>Upload profile image</label>
+      {showLabel?(<label>Upload profile image</label>):null}
+   
 
       <Form.Item
         rules={[
@@ -78,13 +79,14 @@ function Uploader({ setAvatarUrl }: IUploaderProps) {
             className="antd--upload--button"
             maxCount={1}
             listType="picture"
+            showUploadList={showLabel}
           >
             <Button icon={<UploadOutlined />} loading={loading}>
               Upload
             </Button>
           </Upload>
         </ImgCrop>
-        {loading && <Progress percent={uploadProgress} />}
+        {(showLabel)&&loading && <Progress percent={uploadProgress} />}
       </Form.Item>
     </>
   );
