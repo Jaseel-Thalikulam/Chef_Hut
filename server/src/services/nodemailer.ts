@@ -19,8 +19,8 @@ export const sendOTPviaMail = async (to: string, otp: string) => {
 
   const mailOptions = {
     from: '"Chef Hut" <' + GMAIL + ">",
-    to: "jaseelta1@gmail.com",
-    subject: "Welcome Back to Chef Hut",
+    to: to,
+    subject: "Welcome to Chef Hut",
     html: `<!DOCTYPE html>
     <html>
     <head>
